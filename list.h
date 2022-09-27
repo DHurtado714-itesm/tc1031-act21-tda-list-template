@@ -1,8 +1,8 @@
 // =================================================================
 //
 // File: list.h
-// Author:
-// Date:
+// Author: Daniel Felipe Hurtado Giraldo
+// Date: 27 - 09 - 2001
 // 
 // =================================================================
 #ifndef LIST_H
@@ -37,7 +37,7 @@ private:
 // @param val, stored value in the node.
 // =================================================================
 template <class T>
-Node<T>::Node(T val) : value(val), next(NULL) {
+Node<T>::Node(T val) : value(val), next(NULL) { //NULL pointer
 }
 
 // =================================================================
@@ -56,7 +56,7 @@ Node<T>::Node(T val, Node* nxt) : value(val), next(nxt) {
 template <class T>
 class List {
 private:
-	Node<T> *head;
+	Node<T> *head; // Head pointer
 	uint 	size;
 
 public:
@@ -275,7 +275,26 @@ void List<T>::push_back(T val) {
 // =================================================================
 template <class T>
 void List<T>::insert_at(T val, uint index) {
-	// TO DO
+	Node<T> *p, *q;
+
+	if (index > size) {
+		throw IndexOutOfBounds();
+	}
+
+	if (index == 0) {
+		push_front(val);
+		return;
+	}
+
+	p = head;
+	for (uint i = 0; i < index - 1; i++) {
+		p = p->next;
+	}
+
+	q = new Node<T>(val);
+	q->next = p->next;
+	p->next = q;
+	size++;
 }
 
 // =================================================================
