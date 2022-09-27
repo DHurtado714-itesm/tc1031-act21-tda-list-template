@@ -225,8 +225,16 @@ template <class T>
 T List<T>::get(uint index) const {
 	T aux;
 
-	// TO DO
-	return aux;
+	if (index >= size) {
+		throw IndexOutOfBounds();
+	}
+
+	aux = front();
+	for (uint i = 0; i < index; i++) {
+		aux = aux->next;
+	}
+
+	return aux->value;
 }
 
 // =================================================================
