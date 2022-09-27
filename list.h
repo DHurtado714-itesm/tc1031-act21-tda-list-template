@@ -295,6 +295,43 @@ void List<T>::insert_at(T val, uint index) {
 	q->next = p->next;
 	p->next = q;
 	size++;
+
+	// struct node *newNode;
+	// newNode = malloc(sizeof(struct node));
+	// newNode->data = 4;
+
+	// struct node *temp = head;
+
+	// for(int i=2; i < position; i++) {
+	// if(temp->next != NULL) {
+	// 	temp = temp->next;
+	// }
+	// }
+	// newNode->next = temp->next;
+	// temp->next = newNode;
+
+	// // 1. Check if the given prev_node is NULL
+    // if (prev_node == NULL) {
+    //     cout << "The given previous node cannot be NULL";
+    //     return;
+    // }
+ 
+    // // 2. Allocate new node
+    // Node* new_node = new Node();
+ 
+    // // 3. Put in the data
+    // new_node->data = new_data;
+ 
+    // // 4. Make next of new node as
+    // // next of prev_node
+    // new_node->next = prev_node->next;
+ 
+    // // 5. move the next of prev_node
+    // // as new_node
+    // prev_node->next = new_node;
+
+	// Complexity O(n)
+
 }
 
 // =================================================================
@@ -366,8 +403,32 @@ T List<T>::pop_back() {
 template <class T>
 T List<T>::remove_at(uint index) {
 	T aux;
-	// TO DO
+
+	// Remove element at index
+
+	aux = head;
+	prev = head;
+
+	for(int i = 0; i < index; i++){
+		if(i == 0 && position == 1){
+			head = head->next;
+			free(aux);
+		}
+		else{
+			if(i == position - 1 && aux){
+				prev->next = aux->next;
+				free(aux);
+			}
+			else{
+				prev = aux;
+				if(prev == NULL)
+					break;
+				aux = aux->next;
+			}
+		}
+
 	return aux;
+	}
 }
 
 // =================================================================
@@ -378,7 +439,27 @@ T List<T>::remove_at(uint index) {
 // =================================================================
 template <class T>
 long int List<T>::indexOf(T val) const {
-	// TO DO
+	Node<T> *p;
+	uint i;
+
+	int count = 0;
+	p = head;
+	while (p != NULL) {
+		if (p->value == val) {
+			return count;
+		}
+		p = p->next;
+		count++;
+	}
+
+	while(p != NULL){
+		if(count == val){
+			return (p->value);
+		count++;
+		p = p->next;
+		}
+	}
+
 	return -1;
 }
 
