@@ -220,6 +220,7 @@ T List<T>::last() const {
 //
 // @returns the element in index
 // @throws IndexOutOfBounds, if index >= size.
+// Complexity O(n)
 // =================================================================
 template <class T>
 T List<T>::get(uint index) const {
@@ -229,12 +230,13 @@ T List<T>::get(uint index) const {
 		throw IndexOutOfBounds();
 	}
 
-	aux = front();
 	for (uint i = 0; i < index; i++) {
-		aux = aux->next;
+		if(i == index){
+			aux = head->value;
+		};
 	}
 
-	return aux->value;
+	return aux; // corregir
 }
 
 // =================================================================
@@ -280,6 +282,7 @@ void List<T>::push_back(T val) {
 // was in that position is shifted to the right.
 //
 // @throws IndexOutOfBounds, if index > size.
+// Complexity O(n)
 // =================================================================
 template <class T>
 void List<T>::insert_at(T val, uint index) {
@@ -303,42 +306,6 @@ void List<T>::insert_at(T val, uint index) {
 	q->next = p->next;
 	p->next = q;
 	size++;
-
-	// struct node *newNode;
-	// newNode = malloc(sizeof(struct node));
-	// newNode->data = 4;
-
-	// struct node *temp = head;
-
-	// for(int i=2; i < position; i++) {
-	// if(temp->next != NULL) {
-	// 	temp = temp->next;
-	// }
-	// }
-	// newNode->next = temp->next;
-	// temp->next = newNode;
-
-	// // 1. Check if the given prev_node is NULL
-    // if (prev_node == NULL) {
-    //     cout << "The given previous node cannot be NULL";
-    //     return;
-    // }
- 
-    // // 2. Allocate new node
-    // Node* new_node = new Node();
- 
-    // // 3. Put in the data
-    // new_node->data = new_data;
- 
-    // // 4. Make next of new node as
-    // // next of prev_node
-    // new_node->next = prev_node->next;
- 
-    // // 5. move the next of prev_node
-    // // as new_node
-    // prev_node->next = new_node;
-
-	// Complexity O(n)
 
 }
 
@@ -407,36 +374,38 @@ T List<T>::pop_back() {
 //
 // @returns the element that was in index.
 // @throws IndexOutOfBounds, if index >= size.
+// Complexity O(n)
 // =================================================================
 template <class T>
 T List<T>::remove_at(uint index) {
 	T aux;
+	Node<T> *p, *q;
 
-	// Remove element at index
+	if (index >= size) {
+		throw IndexOutOfBounds();
+	}
 
-	aux = head;
-	prev = head;
+	if (index == 0) {
+		return pop_front();
+	}
 
-	for(int i = 0; i < index; i++){
-		if(i == 0 && position == 1){
-			head = head->next;
-			free(aux);
-		}
-		else{
-			if(i == position - 1 && aux){
-				prev->next = aux->next;
-				free(aux);
-			}
-			else{
-				prev = aux;
-				if(prev == NULL)
-					break;
-				aux = aux->next;
-			}
-		}
+	if (index == size - 1) {
+		return pop_back();
+	}
+
+	p = head;
+	for(uint i = 0; i < index - 1; i++){
+		p = p->next;
+	}
+
+	q = p->next;
+	p->next = q->next;
+	aux = q->value;
+
+	delete q;
+	size--;
 
 	return aux;
-	}
 }
 
 // =================================================================
