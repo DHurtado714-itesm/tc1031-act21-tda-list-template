@@ -224,19 +224,20 @@ T List<T>::last() const {
 // =================================================================
 template <class T>
 T List<T>::get(uint index) const {
+	Node<T> *p;
 	T aux;
 
 	if (index >= size) {
 		throw IndexOutOfBounds();
 	}
 
+	p = head;
 	for (uint i = 0; i < index; i++) {
-		if(i == index){
-			aux = head->value;
-		};
+		p = p->next;
 	}
+	aux = p->value;
 
-	return aux; // corregir
+	return aux;
 }
 
 // =================================================================
